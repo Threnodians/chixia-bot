@@ -10,15 +10,20 @@ This project is a Discord bot built using the `interactions.py` library. It inte
     pip install -r requirements.txt
     ```
 
-2. **Configuration (Missing `constants.py`):** You'll need a `constants.py` file (which is *not* provided in the code) to store sensitive information and configuration variables. This file should define at least the following:
+2. **Configuration:**
+    - Copy `constants.py.example` to `constants.py`:
 
-    ```python
-    # constants.py
-    BOT_TOKEN = "YOUR_DISCORD_BOT_TOKEN"  # Replace with your bot's token
-    ENDPOINT_BASE = "YOUR_API_BASE_URL" # Example: "https://api.example.com"
-    ```
+        ```bash
+        cp constants.py.example constants.py
+        ```
 
-    Replace `"YOUR_DISCORD_BOT_TOKEN"` with your actual Discord bot token, and `"YOUR_API_BASE_URL"` with the base URL of the API you want to use.
+    - Open `constants.py` and fill in your *actual* Discord bot token and API base URL.
+
+        ```python
+        # constants.py
+        BOT_TOKEN = "YOUR_DISCORD_BOT_TOKEN"  # Replace with your bot's token
+        ENDPOINT_BASE = "YOUR_API_BASE_URL" # Example: "https://api.example.com"
+        ```
 
 3. **Run the Bot:** Once you have `constants.py` set up, you can run the bot from the command line:
 
