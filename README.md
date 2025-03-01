@@ -85,7 +85,6 @@ The project is organized into the following files and directories:
   - **`api_handler.py`:**  Handles all interactions with the external API.
 - **`constants.py`:**  Stores configuration values (bot token, API base URL). *You need to create this file.*
 - **`requirements.txt`:**  Lists the Python packages required for the project.
-- **`api-info.txt`:**  Provides examples of API requests and responses (useful for understanding the API).
 
 ## Logging
 
