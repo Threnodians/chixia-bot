@@ -4,8 +4,10 @@ This project is a Discord bot built using the `interactions.py` library. It inte
 
 ## How to Run
 
-1. **Install Dependencies:**  Make sure you have [UV](https://github.com/astral-sh/uv) installed.**Configuration:**
-2. - Copy `constants.py.example` to `constants.py`:
+1. **Install Dependencies:**  Make sure you have [UV](https://github.com/astral-sh/uv) installed.
+2. **Configuration:**
+
+   - Copy `constants.py.example` to `constants.py`:
 
      ```bash
      cp constants.py.example constants.py
