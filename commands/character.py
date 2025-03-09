@@ -3,7 +3,7 @@ from interactions import (
     slash_command,
     SlashContext,
     Embed,
-    EmbedField,
+    # EmbedField,
     OptionType,
     slash_option,
     AutocompleteContext,
@@ -13,7 +13,7 @@ from interactions import (
 )
 from core.api_handler import ApiHandler
 from loguru import logger
-from constants import ENDPOINT_BASE
+# from constants import ENDPOINT_BASE
 import httpx
 import asyncio
 
