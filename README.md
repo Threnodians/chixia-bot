@@ -4,14 +4,8 @@ This project is a Discord bot built using the `interactions.py` library. It inte
 
 ## How to Run
 
-1. **Install Dependencies:**  Make sure you have Python installed (preferably Python 3.8 or higher). Then, install the required packages using pip:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-2. **Configuration:**
-
-   - Copy `constants.py.example` to `constants.py`:
+1. **Install Dependencies:**  Make sure you have [UV](https://github.com/astral-sh/uv) installed.**Configuration:**
+2. - Copy `constants.py.example` to `constants.py`:
 
      ```bash
      cp constants.py.example constants.py
@@ -28,7 +22,7 @@ This project is a Discord bot built using the `interactions.py` library. It inte
 3. **Run the Bot:** Once you have `constants.py` set up, you can run the bot from the command line:
 
    ```bash
-   python app.py
+   uv run app.py
    ```
 
 ## Functionality
@@ -68,8 +62,7 @@ The bot provides the following commands:
   - Image loading errors.
   - Missing data in API responses.
   - Errors during command execution.
-
-    Errors are logged using `loguru` for debugging and monitoring.
+  - Errors are logged using `loguru` for debugging and monitoring.
 
 ## Project Structure
 
@@ -84,7 +77,10 @@ The project is organized into the following files and directories:
 
   - **`api_handler.py`:**  Handles all interactions with the external API.
 - **`constants.py`:**  Stores configuration values (bot token, API base URL). *You need to create this file.*
-- **`requirements.txt`:**  Lists the Python packages required for the project.
+- **`pyproject.toml`:**  Containes Project metadata, Dependencies.
+
+  ### Project Tree
+
 
   ```
   chixia-bot
@@ -94,9 +90,8 @@ The project is organized into the following files and directories:
   │  └─ general.py
   ├─ core
   │  └─ api_handler.py
-  ├─ LICENSE.txt
-  ├─ README.md
-  └─ requirements.txt
+  ├─ pyproject.toml
+  └─ README.md
   ```
 
 ## Logging

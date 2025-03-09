@@ -1,5 +1,5 @@
-# Change the file name to constants.py
-# and insert your bot BOT_TOKEN
+# Run > cp constants.py.example constants.py
+# and insert your bot BOT_TOKEN, ENDPOINT_BASE in constants.py file
 
 BOT_TOKEN = ""
 ENDPOINT_BASE = "http://localhost:3000"

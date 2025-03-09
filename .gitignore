@@ -1,4 +1,20 @@
-venv/
-*/*__pycache__
-__pycache__
+# Ignore virtual environment directory
+.venv/
+
+# Ignore Python bytecode files and __pycache__ directories
+__pycache__/
+*/*__pycache__/
+*.pyc
+*.pyo
+
+# Ignore log files
+*.log
+
+# Ignore environment-specific files
+.python-version
+
+# Ignore lock files
+*.lock
+
+# Ignore constants.py file
 constants.py
