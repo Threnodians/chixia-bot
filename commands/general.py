@@ -14,6 +14,11 @@ LATENCY_THRESHOLD_AVERAGE = 500
 class GeneralCommands(Extension):
     @slash_command(name="ping", description="Check whether the bot is alive")
     async def handle_ping(self, ctx: SlashContext) -> None:
+
+        # Check if latency is valid (i.e., not None or infinity)
+        if self.bot.latency is None or self.bot.latency == float('inf'):
+            await ctx.send("Unable to fetch latency. The bot may not be fully connected.")
+            return
         # Calculate latency
         latency_ms = round(self.bot.latency * 1000, 3)
 
@@ -23,9 +28,6 @@ class GeneralCommands(Extension):
             ("AVERAGE", "#ffd60a") if latency_ms < LATENCY_THRESHOLD_AVERAGE else
             ("POOR", "#d62828")
         )
-
-        # Send response with the health status, latency, and color
-        await ctx.send(f"Latency: {latency_ms}ms - Health Status: {health_status}", color=color)
 
         # Create the embed with dynamic content
         pong_embed = Embed(
