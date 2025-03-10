@@ -8,8 +8,8 @@ from interactions import (
 )
 
 # Define latency threshold for health check
-LATENCY_THRESHOLD = 200
-
+LATENCY_THRESHOLD_GOOD = 300
+LATENCY_THRESHOLD_AVERAGE = 500
 
 class GeneralCommands(Extension):
     @slash_command(name="ping", description="Check whether the bot is alive")
@@ -17,9 +17,15 @@ class GeneralCommands(Extension):
         # Calculate latency
         latency_ms = round(self.bot.latency * 1000, 3)
 
-        # Determine health status and color
-        health_status = "GOOD" if latency_ms < LATENCY_THRESHOLD else "POOR"
-        color = "#38b000" if health_status == "GOOD" else "#d62828"
+        # Determine health status and corresponding color
+        health_status, color = (
+            ("GOOD", "#38b000") if latency_ms < LATENCY_THRESHOLD_GOOD else
+            ("AVERAGE", "#ffd60a") if latency_ms < LATENCY_THRESHOLD_AVERAGE else
+            ("POOR", "#d62828")
+        )
+
+        # Send response with the health status, latency, and color
+        await ctx.send(f"Latency: {latency_ms}ms - Health Status: {health_status}", color=color)
 
         # Create the embed with dynamic content
         pong_embed = Embed(
