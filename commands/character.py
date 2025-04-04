@@ -134,27 +134,45 @@ class Character(Extension):
 
             # Add character information fields to the embed.  The 'if' checks prevent errors if
             # a particular piece of data is missing from the API response.
-            if "skillPriority" in character_info:
+            if "skillPriority" in character_info and character_info["skillPriority"]:
                 embed.add_field(name="⚔️ Skill Priority", value=" > ".join(character_info["skillPriority"]), inline=False)
-            if "substatPriority" in character_info:
+            elif "skillPriority" in character_info:
+                embed.add_field(name="⚔️ Skill Priority", value="No skill priority information available.", inline=False)
+            if "substatPriority" in character_info and character_info["substatPriority"]:
                 embed.add_field(name="📊 Substat Priority", value=character_info["substatPriority"], inline=False)
-            if "endgameStats" in character_info:
+            elif "substatPriority" in character_info:
+                embed.add_field(name="📊 Substat Priority", value="No substat priority information available.", inline=False)
+            if "endgameStats" in character_info and character_info["endgameStats"]:
                 stats = character_info["endgameStats"]
-                stats_text = "\n".join([f"**{stat}:** {value}" for stat, value in stats.items()])
-                embed.add_field(name="🎯 Endgame Stats", value=stats_text, inline=False)
-            if "weaponBuilds" in character_info:
+                if stats:  # Check if stats dictionary is not empty
+                    stats_text = "\n".join([f"**{stat}:** {value}" for stat, value in stats.items()])
+                    if stats_text:  # Ensure stats_text is not empty
+                        embed.add_field(name="🎯 Endgame Stats", value=stats_text, inline=False)
+                    else:
+                        embed.add_field(name="🎯 Endgame Stats", value="No endgame stats details available.", inline=False)
+                else:
+                    embed.add_field(name="🎯 Endgame Stats", value="No endgame stats available.", inline=False)
+            elif "endgameStats" in character_info:
+                embed.add_field(name="🎯 Endgame Stats", value="No endgame stats available.", inline=False)
+            if "weaponBuilds" in character_info and character_info["weaponBuilds"]:
                 # Limit the number of displayed weapons to avoid overly long embeds.
                 weapon_text = "".join(
                     f"**{weapon['name']}** (S{weapon['duplicates']}) - {weapon['percentage']}\n"
                     for weapon in character_info["weaponBuilds"][:5]
                 )
                 embed.add_field(name="🗡️ Recommended Weapons", value=weapon_text, inline=False)
-            if "echoSetBuilds" in character_info:
+            elif "weaponBuilds" in character_info:
+                # Handle case where weaponBuilds exists but is empty
+                embed.add_field(name="🗡️ Recommended Weapons", value="No recommended weapons available.", inline=False)
+            if "echoSetBuilds" in character_info and character_info["echoSetBuilds"]:
                 echo_text = "".join(
                     f"**{echo['setName']}** ({echo['echoName']}) - {echo['percentage']}\n"
                     for echo in character_info["echoSetBuilds"]
                 )
                 embed.add_field(name="🔮 Recommended Echo Sets", value=echo_text, inline=False)
+            elif "echoSetBuilds" in character_info:
+                # Handle case where echoSetBuilds exists but is empty
+                embed.add_field(name="🔮 Recommended Echo Sets", value="No recommended echo sets available.", inline=False)
 
             embed.set_footer(text="Data from Gathering Wives API | Wuthering Waves")
             await ctx.respond(embed=embed)
