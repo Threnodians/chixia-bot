@@ -23,12 +23,15 @@ async def on_command_error(event):
     logger.error(f"Command error: {event.error}")
 
 # Load extensions, handling potential load failures gracefully.
-for ext in ["commands.character", "commands.general"]:
+for ext in ["commands.character", "commands.general", "commands.help"]:
     try:
         bot.load_extension(ext)
         logger.info(f"Loaded extension: {ext}")
     except Exception as e:
+        # Log the full exception traceback for better debugging
+        import traceback
         logger.error(f"Failed to load extension {ext}: {e}")
+        logger.error(f"Traceback: {traceback.format_exc()}")
 
 if __name__ == "__main__":
     logger.info("Starting bot...")
