@@ -145,31 +145,101 @@ class Character(Extension):
             if "endgameStats" in character_info and character_info["endgameStats"]:
                 stats = character_info["endgameStats"]
                 if stats:  # Check if stats dictionary is not empty
-                    stats_text = "\n".join([f"**{stat}:** {value}" for stat, value in stats.items()])
-                    if stats_text:  # Ensure stats_text is not empty
+                    # Create stats text but check for Discord's 1024 character limit
+                    stats_items = [f"**{stat}:** {value}" for stat, value in stats.items()]
+
+                    # Check if the combined text would exceed Discord's limit
+                    stats_text = "\n".join(stats_items)
+                    if len(stats_text) <= 1024:  # Discord's field value limit
                         embed.add_field(name="🎯 Endgame Stats", value=stats_text, inline=False)
                     else:
-                        embed.add_field(name="🎯 Endgame Stats", value="No endgame stats details available.", inline=False)
+                        # Split into multiple fields if too long
+                        current_text = ""
+                        field_count = 1
+
+                        for item in stats_items:
+                            # Check if adding this item would exceed the limit
+                            if len(current_text + "\n" + item) > 1024 and current_text:
+                                # Add the current field and start a new one
+                                embed.add_field(name=f"🎯 Endgame Stats ({field_count})", value=current_text, inline=False)
+                                current_text = item
+                                field_count += 1
+                            else:
+                                # Add to current field with a newline if not empty
+                                if current_text:
+                                    current_text += "\n" + item
+                                else:
+                                    current_text = item
+
+                        # Add the last field if there's anything left
+                        if current_text:
+                            embed.add_field(name=f"🎯 Endgame Stats ({field_count})", value=current_text, inline=False)
                 else:
                     embed.add_field(name="🎯 Endgame Stats", value="No endgame stats available.", inline=False)
             elif "endgameStats" in character_info:
                 embed.add_field(name="🎯 Endgame Stats", value="No endgame stats available.", inline=False)
             if "weaponBuilds" in character_info and character_info["weaponBuilds"]:
                 # Limit the number of displayed weapons to avoid overly long embeds.
-                weapon_text = "".join(
-                    f"**{weapon['name']}** (S{weapon['duplicates']}) - {weapon['percentage']}\n"
+                weapon_items = [
+                    f"**{weapon['name']}** (S{weapon['duplicates']}) - {weapon['percentage']}"
                     for weapon in character_info["weaponBuilds"][:5]
-                )
-                embed.add_field(name="🗡️ Recommended Weapons", value=weapon_text, inline=False)
+                ]
+                weapon_text = "\n".join(weapon_items)
+
+                # Check if the text exceeds Discord's limit
+                if len(weapon_text) <= 1024:
+                    embed.add_field(name="🗡️ Recommended Weapons", value=weapon_text, inline=False)
+                else:
+                    # Split into multiple fields if too long
+                    current_text = ""
+                    field_count = 1
+
+                    for item in weapon_items:
+                        if len(current_text + "\n" + item) > 1024 and current_text:
+                            embed.add_field(name=f"🗡️ Recommended Weapons ({field_count})", value=current_text, inline=False)
+                            current_text = item
+                            field_count += 1
+                        else:
+                            if current_text:
+                                current_text += "\n" + item
+                            else:
+                                current_text = item
+
+                    # Add the last field
+                    if current_text:
+                        embed.add_field(name=f"🗡️ Recommended Weapons ({field_count})", value=current_text, inline=False)
             elif "weaponBuilds" in character_info:
                 # Handle case where weaponBuilds exists but is empty
                 embed.add_field(name="🗡️ Recommended Weapons", value="No recommended weapons available.", inline=False)
             if "echoSetBuilds" in character_info and character_info["echoSetBuilds"]:
-                echo_text = "".join(
-                    f"**{echo['setName']}** ({echo['echoName']}) - {echo['percentage']}\n"
+                echo_items = [
+                    f"**{echo['setName']}** ({echo['echoName']}) - {echo['percentage']}"
                     for echo in character_info["echoSetBuilds"]
-                )
-                embed.add_field(name="🔮 Recommended Echo Sets", value=echo_text, inline=False)
+                ]
+                echo_text = "\n".join(echo_items)
+
+                # Check if the text exceeds Discord's limit
+                if len(echo_text) <= 1024:
+                    embed.add_field(name="🔮 Recommended Echo Sets", value=echo_text, inline=False)
+                else:
+                    # Split into multiple fields if too long
+                    current_text = ""
+                    field_count = 1
+
+                    for item in echo_items:
+                        if len(current_text + "\n" + item) > 1024 and current_text:
+                            embed.add_field(name=f"🔮 Recommended Echo Sets ({field_count})", value=current_text, inline=False)
+                            current_text = item
+                            field_count += 1
+                        else:
+                            if current_text:
+                                current_text += "\n" + item
+                            else:
+                                current_text = item
+
+                    # Add the last field
+                    if current_text:
+                        embed.add_field(name=f"🔮 Recommended Echo Sets ({field_count})", value=current_text, inline=False)
             elif "echoSetBuilds" in character_info:
                 # Handle case where echoSetBuilds exists but is empty
                 embed.add_field(name="🔮 Recommended Echo Sets", value="No recommended echo sets available.", inline=False)
